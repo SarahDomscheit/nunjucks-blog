@@ -4,8 +4,8 @@ import sanitizeHtml from "sanitize-html";
 
 // Show all posts
 
-export const entriesListing = (req: Request, res: Response) => {
-  const posts = getPosts();
+export const entriesListing = async (req: Request, res: Response) => {
+  const posts = await getPosts();
   res.render("../views/admin/indexPage.html", { posts });
 };
 
@@ -17,7 +17,7 @@ export const createPost = (req: Request, res: Response) => {
 // Save New Post
 
 export const saveNewPost = async (req: Request, res: Response) => {
-  const posts = getPosts();
+  const posts = await getPosts();
 
   let imagePath = req.body.image;
   if (imagePath.startsWith("/images/")) {
@@ -43,7 +43,7 @@ export const saveNewPost = async (req: Request, res: Response) => {
 };
 
 export const editPost = async (req: Request, res: Response) => {
-  const posts = getPosts();
+  const posts = await getPosts();
   const { id } = req.params;
   const post = posts.find((post) => post.id === id);
 
@@ -55,7 +55,7 @@ export const editPost = async (req: Request, res: Response) => {
 };
 
 export const updatePost = async (req: Request, res: Response) => {
-  const posts = getPosts();
+  const posts = await getPosts();
   const { id } = req.params;
   const postIndex = posts.findIndex((post) => post.id === id);
 
@@ -79,7 +79,7 @@ export const updatePost = async (req: Request, res: Response) => {
 };
 
 export const deletePost = async (req: Request, res: Response) => {
-  const posts = getPosts();
+  const posts = await getPosts();
   const { id } = req.params;
   const filtered = posts.filter((post) => post.id !== id);
   await savePosts(filtered);

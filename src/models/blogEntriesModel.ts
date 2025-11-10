@@ -18,12 +18,7 @@ export async function getAllBlogEntries() {
   } catch (error) {}
 }
 
-export const getPosts = async (): Promise<
-  (Omit<POST, "createdAt"> & {
-    createdAt: string;
-    id: string;
-  })[]
-> => {
+export const getPosts = async (): Promise<Array<POST & { id: string }>> => {
   const posts = await getAllBlogEntries();
 
   if (!posts) return [];
@@ -36,6 +31,7 @@ export const getPosts = async (): Promise<
     };
   });
 };
+
 export const savePosts = async (
   posts: Array<Omit<POST, "createdAt"> & { id: string }>
 ) => {
