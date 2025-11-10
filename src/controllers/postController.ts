@@ -9,11 +9,11 @@ export const postDetailController = async (req: Request, res: Response) => {
     return res.status(404).send("Post not found");
   }
 
-  res.render("postdetail.html", { post });
+  res.render("postdetail.njk", { post });
 };
 
 export const postController = async (req: Request, res: Response) => {
   const posts = await getPosts();
   const firstPost = posts[0];
-  res.render("post.html", { post: firstPost });
+  res.render("post.njk", { post: firstPost });
 };

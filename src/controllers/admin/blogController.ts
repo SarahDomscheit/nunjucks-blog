@@ -6,12 +6,12 @@ import sanitizeHtml from "sanitize-html";
 
 export const entriesListing = async (req: Request, res: Response) => {
   const posts = await getPosts();
-  res.render("../views/admin/indexPage.html", { posts });
+  res.render("../views/admin/indexPage.njk", { posts });
 };
 
 // New Post
 export const createPost = (req: Request, res: Response) => {
-  res.render("../views/admin/createPage.html");
+  res.render("../views/admin/createPage.njk");
 };
 
 // Save New Post
@@ -51,7 +51,7 @@ export const editPost = async (req: Request, res: Response) => {
     return res.status(404).send("Post not found");
   }
 
-  res.render("../views/admin/editPage.html", { post });
+  res.render("../views/admin/editPage.njk", { post });
 };
 
 export const updatePost = async (req: Request, res: Response) => {

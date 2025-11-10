@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block content %}
+{% extends "layout.njk" %} {% block content %}
 <!-- Page Header-->
 <header
   class="masthead"
@@ -13,7 +13,7 @@
           <span class="meta">
             Posted by
             <a href="#!">{{ post.author }}</a>
-            on {{ post.createdAt }}
+            on {{ post.createdAt | formatDate }}
           </span>
         </div>
       </div>

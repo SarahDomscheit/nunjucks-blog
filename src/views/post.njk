@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block title %}{{ post.title }} - Clean Blog{%
+{% extends "layout.njk" %} {% block title %}{{ post.title }} - Clean Blog{%
 endblock %} {% block content %}
 <!-- Page Header-->
 <header
@@ -14,7 +14,7 @@ endblock %} {% block content %}
           <span class="meta">
             Posted by
             <a href="#!">{{ post.author }}</a>
-            on {{ post.createdAt }}
+            on {{ post.createdAt | formatDate }}
           </span>
         </div>
       </div>

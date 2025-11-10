@@ -1,4 +1,4 @@
-{% extends "../layouts/adminLayout.html" %} {% block content %}
+{% extends "../layouts/adminLayout.njk" %} {% block content %}
 <main class="container">
   <article>
     <header>
@@ -47,9 +47,9 @@
 
       <label for="teaser">
         Teaser
-        <textarea id="teaser" name="teaser" required>
-{{ post.teaser }}</textarea
-        >
+        <textarea id="teaser" name="teaser" required>{{
+          post.teaser
+        }}</textarea>
       </label>
 
       <label for="editor">
