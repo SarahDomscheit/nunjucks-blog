@@ -30,10 +30,7 @@ export const getAllPosts = async (): Promise<Array<POST & { id: string }>> => {
 
   if (!posts) return [];
 
-  return posts.map((post, index) => ({
-    ...post,
-    id: (index + 1).toString(),
-  }));
+  return posts || [];
 };
 
 export const getPost = async (id: string): Promise<POST> => {
@@ -98,7 +95,6 @@ export const updatePost = async (
   posts[postIndex] = {
     ...posts[postIndex],
     ...postData,
-    createdAt: Math.floor(Date.now() / 1000),
   };
 
   await writePosts(posts);
