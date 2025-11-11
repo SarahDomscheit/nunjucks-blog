@@ -25,9 +25,9 @@
             <a href="/admin/edit/{{ post.id }}" role="button" class="secondary"
               >Edit</a
             >
-            <a href="/admin/delete/{{ post.id }}" role="button" class="contrast"
-              >Delete</a
-            >
+            <form action="/admin/delete/{{ post.id }}" method="POST">
+              <button class="contrast">Delete</button>
+            </form>
           </td>
         </tr>
         {% endfor %}

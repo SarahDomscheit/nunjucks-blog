@@ -17,8 +17,8 @@ router
   .post("/create", createPostController)
 
   .get("/edit/:id", showEditPage)
-  .patch("/edit/:id", updatePostController)
+  .post("/edit/:id", updatePostController)
 
-  .delete("/delete/:id", deletePostController);
+  .post("/delete/:id", deletePostController);
 
 export default router;

@@ -45,8 +45,8 @@ export const showEditPage = async (req: Request, res: Response) => {
 // Update Post
 export const updatePostController = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const updatedPost = updatePost(id, req.body);
-  res.json(updatedPost);
+  await updatePost(id, req.body);
+  res.redirect("/admin");
 };
 
 export const deletePostController = async (req: Request, res: Response) => {

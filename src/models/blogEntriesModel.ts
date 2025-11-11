@@ -2,6 +2,7 @@ import { POST } from "../types/Post";
 
 import { readFile, writeFile } from "node:fs/promises";
 import * as path from "node:path";
+import { generateSlug } from "../utils/generateSlug";
 
 const FILE_PATH = path.join(__dirname, "..", "data", "posts.json");
 
@@ -38,13 +39,6 @@ export const getPost = async (id: string): Promise<POST> => {
   let post = posts.find((post) => post.id === id);
 
   if (!post) {
-    let index = parseInt(id) - 1;
-    if (index >= 0 && index < posts.length) {
-      post = posts[index];
-    }
-  }
-
-  if (!post) {
     throw new Error(`Post with id ${id} not found`);
   }
 
@@ -69,9 +63,18 @@ export const createPost = async (
 ): Promise<POST> => {
   const posts = await getAllBlogEntries();
 
+  let slug = generateSlug(postData.title);
+
+  let counter = 1;
+  let uniqueSlug = slug;
+  while (posts.some((post) => post.id === uniqueSlug)) {
+    uniqueSlug = `${slug}-${counter}`;
+    counter++;
+  }
+
   const newPost: POST = {
     ...postData,
-    id: (posts.length + 1).toString(),
+    id: uniqueSlug,
     createdAt: Math.floor(Date.now() / 1000),
   };
 
@@ -86,20 +89,33 @@ export const updatePost = async (
   postData: Partial<Omit<POST, "id" | "createdAt">>
 ): Promise<POST> => {
   const posts = await getAllBlogEntries();
-  const postIndex = parseInt(id) - 1;
+  const postIndex = posts.findIndex((post) => post.id === id);
 
-  if (postIndex < 0 || postIndex >= posts.length) {
+  if (postIndex === -1) {
     throw new Error(`Post with id ${id} not found`);
+  }
+
+  let newId = id;
+  if (postData.title && postData.title !== posts[postIndex].title) {
+    let slug = generateSlug(postData.title);
+
+    let counter = 1;
+    let uniqueSlug = slug;
+    while (
+      posts.some((post, idx) => post.id === uniqueSlug && idx !== postIndex)
+    ) {
+      uniqueSlug = `${slug}-${counter}`;
+      counter++;
+    }
+    newId = uniqueSlug;
   }
 
   posts[postIndex] = {
     ...posts[postIndex],
     ...postData,
+    id: newId,
   };
 
   await writePosts(posts);
-  return {
-    ...posts[postIndex],
-    id: id,
-  };
+  return posts[postIndex];
 };
